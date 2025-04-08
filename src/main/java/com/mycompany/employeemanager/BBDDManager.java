@@ -22,7 +22,8 @@ public class BBDDManager {
     //Set variables for database conection and object Connection
     
     private static String connectionInfo = "jdbc:mysql://localhost:3306/";
-    private static String database = "employeeDatabase";
+    private static String database = "employeedatabase";
+    private static String connectionInfoQuery = connectionInfo+database;
     private static String user = "root";
     private static String password = "";
     
@@ -62,9 +63,10 @@ public class BBDDManager {
         
         //Create statement with connection, and execute query
         try {
-            
+            con = DriverManager.getConnection(connectionInfo, user, password);
             stmt = con.createStatement();
             stmt.executeUpdate(query);
+            
             
 
         } catch (SQLException e) {
@@ -74,8 +76,9 @@ public class BBDDManager {
     }
 
     public void createEmployeesTable() {
+        
         //Create query and object statement
-        String query = "CREATE TABLE IF NOT EXISTS EMPLOYEES ("
+        String query = " CREATE TABLE IF NOT EXISTS EMPLOYEES ("
                 + "ID INT PRIMARY KEY AUTO_INCREMENT,"
                 + "NAME VARCHAR(100) NOT NULL,"
                 + "AGE INT NOT NULL,"
@@ -86,17 +89,29 @@ public class BBDDManager {
         
         //Execute query
         try {
+            con = DriverManager.getConnection(connectionInfoQuery, user, password);
+            
             stmt = con.createStatement();
             stmt.executeUpdate(query);
+            
             
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally{
+            try {
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BBDDManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
     }
     //Method to add employee, needs and Employee object
     public void addEmployee(Employee employee) throws SQLException {
+        
+        createEmployeesTable();
+        
         //Create insert query with emloyee values and statement object
         String query = "INSERT INTO EMPLOYEES (name,age,department,salary) VALUES ('" + employee.getName() + "'," + employee.getAge() + ",'" + employee.getDepartment() + "'," + employee.getSalary() + ");";
 
@@ -110,6 +125,8 @@ public class BBDDManager {
         } catch (SQLException e) {
             e.printStackTrace();
 
+        }finally{
+            stmt.close();
         }
 
     }
