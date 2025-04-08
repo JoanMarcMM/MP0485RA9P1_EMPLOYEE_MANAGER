@@ -155,7 +155,7 @@ public class BBDDManager {
     //Method to update employee , needs emloyee object
     public void updateEmployee(Employee employee) throws SQLException {
         //Create query with employee info and statement object
-        String query = "UPDATE EMPLOYEES SET NAME = '" + employee.getName() + "',AGE = " + employee.getAge() + ",DEPARTMENT = '" + employee.getDepartment() + "', SALARY = " + employee.getSalary() + " WHERE ID = " + employee.getId() + ";";
+        String query = "UPDATE EMPLOYEES SET NAME = '" + employee.getName() + "',AGE = " + employee.getAge() + ",DEPARTMENT = '" + employee.getDepartment() + "', SALARY = " + employee.getSalary() + " WHERE ID = " + employee.getId() + " ;";
 
         Statement stmt = null;
         //Execute query

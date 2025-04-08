@@ -110,18 +110,21 @@ public class DeleteEmployee extends javax.swing.JDialog {
         
         try {
             id = Integer.parseInt(jTxtID.getText());
-            
+            if(db.findEmployee(id)){
+                JOptionPane.showMessageDialog(this, "Employee found."); 
             int confirmation = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete the employee?", "Confirmation", JOptionPane.YES_NO_OPTION);
         //If want to delete use findEmplyee to find if employee exists.
            if (confirmation == JOptionPane.YES_OPTION) {
             //If employee exists delete and show message, if not show error message
-            if(db.findEmployee(id)){
+            
             db.removeEmployee(id);
             JOptionPane.showMessageDialog(this, "Employee deleted.");
-            }else{
+           }else{
+               JOptionPane.showMessageDialog(this, "Deletion cancelled."); 
+           }
+           }else{
                JOptionPane.showMessageDialog(this, "Employee not found."); 
             }
-        }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Invalid input.");
         }
